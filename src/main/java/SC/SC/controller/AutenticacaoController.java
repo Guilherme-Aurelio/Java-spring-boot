@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping
+//@RequestMapping(login) 
 
 public class AutenticacaoController {
 
@@ -19,9 +19,9 @@ public class AutenticacaoController {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired 
-    TokenService tokenService;
+    //@Autowired 
+    //TokenService tokenService;
 
-    @PostMapping
+    //@PostMapping
     
 }

@@ -42,7 +42,7 @@ public class TarefaController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Tarefa>> listar(@PageableDefault(size=4, sort = {"nome"}) Pageable paginacao){
+    public ResponseEntity<Page<Tarefa>> listar(@PageableDefault(size=4, sort={"nome"}) Pageable paginacao){
         var tarefas = repository.findAll(paginacao);
         return ResponseEntity.ok(tarefas);
     }

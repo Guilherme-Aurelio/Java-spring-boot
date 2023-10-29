@@ -1,9 +1,12 @@
 package SC.SC.domain.tarefa;
 
+import SC.SC.domain.usuario.Usuario;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -28,4 +31,8 @@ public class Tarefa {
     @NotBlank(message = "Nome da tarefa é obrigatório")
     private String nome;
     private String descricao;
+
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
 }
