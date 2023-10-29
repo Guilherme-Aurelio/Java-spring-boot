@@ -1,0 +1,1 @@
+ALTER TABLE tarefa ADD CONSTRAINT fk_tabela FOREIGN KEY ( id_usuario ) REFERENCES  usuario( id ) ;

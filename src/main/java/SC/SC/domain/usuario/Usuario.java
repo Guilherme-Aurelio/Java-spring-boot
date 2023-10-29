@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import SC.SC.domain.tarefa.Tarefa;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,10 +33,8 @@ public class Usuario implements UserDetails{
   private Long id;
   private String login;
   private String senha;
-
-  @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
-    private List<Tarefa> tarefas;
-
+  @OneToMany
+  private List<Tarefa> tarefas;
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return List.of(new SimpleGrantedAuthority("ROLE_USER"));

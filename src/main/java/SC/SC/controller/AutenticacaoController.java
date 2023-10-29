@@ -1,27 +1,52 @@
 package SC.SC.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-/*import org.springframework.security.core.token.TokenService;*/
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+//import org.springframework.security.core.token.TokenService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import SC.SC.domain.usuario.DadosAutenticacao;
+import SC.SC.domain.usuario.Usuario;
+
+import SC.SC.domain.usuario.DadosAutenticacao;
+import SC.SC.domain.usuario.Usuario;
+import SC.SC.infra.security.DadosTokenJWT;
+import SC.SC.service.TokenService;
+
 @RestController
-//@RequestMapping(login) 
-
+@RequestMapping("/login")
 public class AutenticacaoController {
+  
+  @Autowired
+  private AuthenticationManager manager;
 
-    @Autowired
-    private AuthenticationManager manager;
+  
+  @Autowired
+  private BCryptPasswordEncoder bCryptPasswordEncoder;
+  
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+  @Autowired
+  TokenService tokenService;
 
-    //@Autowired 
-    //TokenService tokenService;
+  @PostMapping
+  public ResponseEntity<Object> efetuarLogin(@RequestBody DadosAutenticacao dados){
+    var token = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
+    var authentication = manager.authenticate(token);
+    var tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
+    return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
+  }
 
-    //@PostMapping
-    
+   
+  @GetMapping
+  public ResponseEntity<String> getSenhaBcrypt(@RequestBody String senha){
+    String senhaBrypt = bCryptPasswordEncoder.encode(senha);
+    return ResponseEntity.ok(senhaBrypt);
+  }
 }
