@@ -24,7 +24,7 @@ public class TokenService {
     try {
       Algorithm algorithm = Algorithm.HMAC256(seacret);
       return JWT.create()
-          .withIssuer("API Controle de estoque IFRN")
+          .withIssuer("API Tarefas")
           .withSubject(usuario.getLogin())
           .withClaim("id", usuario.getId())
           .withExpiresAt(dataExpiracao())
@@ -39,7 +39,7 @@ public class TokenService {
       Algorithm algorithm = Algorithm.HMAC256(seacret);
       return JWT.require(algorithm)
           // specify an specific claim validations
-          .withIssuer("API Controle de estoque IFRN")
+          .withIssuer("API Tarefas")
           // reusable verifier instance
           .build().verify(tokenJWT).getSubject();
 

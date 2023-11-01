@@ -24,24 +24,10 @@ public class SecurityConfigurations {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    /*  
-    // Disabilita CSRF (cross site request forgery)
-    http.csrf(Customizer.withDefaults());
-
-    // Habilita CORS
-    http.cors(Customizer.withDefaults());
-
-    // Não serão criadas ou utilizadas sessões pelo spring security
-    http.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-    http.authorizeHttpRequests((authorize) -> authorize.requestMatchers(HttpMethod.POST,"/login/**").permitAll().anyRequest().authenticated());
-    //http.authorizeHttpRequests().requestMatchers(HttpMethod.POST, "/login/").permitAll().anyRequest().authenticated();
-
-    return http.build();
-    */
     return http.csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and().authorizeHttpRequests()
+            .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
             .requestMatchers(HttpMethod.POST, "/login").permitAll()
             .anyRequest().authenticated()
             .and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
