@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import SC.SC.domain.tarefa.Tarefa;
+import SC.SC.domain.usuario.Usuario;
 import SC.SC.repository.TarefaRepository;
+import SC.SC.service.AutenticacaoService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,10 +32,16 @@ public class TarefaController {
     
     @Autowired
     private TarefaRepository repository;
-
+    @Autowired
+    private AutenticacaoService autenticacaoService;
     @PostMapping
     @Transactional
     public ResponseEntity cadastrar(@RequestBody @Valid Tarefa tarefa, UriComponentsBuilder uriBuilder){
+        UserDetails userDetails = autenticacaoService.loadUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (userDetails != null) {
+            Usuario usuario = (Usuario) userDetails;
+            tarefa.setUsuario(usuario);
+        }
         Tarefa tarefaLocal = repository.save(tarefa);
         var uri = uriBuilder.path("/tarefas/{id}").buildAndExpand(tarefaLocal.getId()).toUri();
         return ResponseEntity.created(uri).build();

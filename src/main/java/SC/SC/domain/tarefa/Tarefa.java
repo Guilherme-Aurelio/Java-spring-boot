@@ -14,6 +14,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @Table(name = "tarefa") //Nome usado em consultas SQL
 @Entity(name = "tarefa") //Nome usado nas consultas JPQL (solução JPA)
@@ -22,16 +23,17 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
+
 public class Tarefa {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //No caso de PostgreSQL, seria GenerationType.SEQUENCE
     private Long id;
     @NotBlank(message = "Nome da tarefa é obrigatório")
     private String nome;
     private String descricao;
-
+    
+    @Schema(description = "Esse atributo é criado automaticamente, então não é preciso coloca-lo na requisição post junto com nome e descricao")
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
