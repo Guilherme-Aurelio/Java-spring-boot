@@ -19,7 +19,9 @@ import SC.SC.domain.tarefa.Tarefa;
 import SC.SC.repository.TarefaRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Tarefas", description = "Operações relacionadas as tarefas")
 @RestController
 @RequestMapping("tarefas")
 public class TarefaController {
@@ -55,13 +57,16 @@ public class TarefaController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<Tarefa> atualizar(@RequestBody @Valid Tarefa tarefa){
-        Tarefa tarefaLocal = repository.findById(tarefa.getId()).get();
- 
+    public ResponseEntity<Tarefa> atualizar(@PathVariable Long id, @RequestBody @Valid Tarefa tarefa){
+        Tarefa tarefaLocal = repository.findById(id).orElse(null);
+        if (tarefaLocal == null) {
+            return ResponseEntity.notFound().build();
+        }
         tarefaLocal.setNome(tarefa.getNome());
-
+        tarefaLocal.setDescricao(tarefa.getDescricao());
+        repository.save(tarefaLocal);
         return ResponseEntity.ok(tarefaLocal);
     }
 }

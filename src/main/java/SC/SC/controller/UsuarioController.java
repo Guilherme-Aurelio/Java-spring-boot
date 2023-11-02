@@ -25,7 +25,9 @@ import SC.SC.repository.TarefaRepository;
 import SC.SC.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 import SC.SC.service.TokenService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Usuários", description = "Operações relacionadas a usuários")
 @RestController
 @RequestMapping("usuarios")
 

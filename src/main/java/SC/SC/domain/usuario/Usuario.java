@@ -33,8 +33,6 @@ public class Usuario implements UserDetails{
   private Long id;
   private String login;
   private String senha;
-  @OneToMany
-  private List<Tarefa> tarefas;
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return List.of(new SimpleGrantedAuthority("ROLE_USER"));

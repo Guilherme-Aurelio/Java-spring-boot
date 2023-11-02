@@ -24,7 +24,9 @@ import SC.SC.domain.usuario.DadosAutenticacao;
 import SC.SC.domain.usuario.Usuario;
 import SC.SC.infra.security.DadosTokenJWT;
 import SC.SC.service.TokenService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Login", description = "Login com um usuario ja salvo no banco de dados")
 @RestController
 @RequestMapping("/login")
 public class AutenticacaoController {

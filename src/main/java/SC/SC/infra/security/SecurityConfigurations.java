@@ -29,11 +29,20 @@ public class SecurityConfigurations {
             .and().authorizeHttpRequests()
             .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
             .requestMatchers(HttpMethod.POST, "/login").permitAll()
+            .requestMatchers(AUTH_WHITELIST).permitAll()
             .anyRequest().authenticated()
             .and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
   }
 
+  private static final String[] AUTH_WHITELIST = {
+    "/api/v1/auth/**",
+    "/v3/api-docs/**",
+    "/v3/api-docs.yaml",
+    "/swagger-ui/**",
+    "/swagger-ui.html"
+  };
+  
   @Bean
   public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
     return configuration.getAuthenticationManager();
